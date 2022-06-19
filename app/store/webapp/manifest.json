@@ -1,0 +1,138 @@
+{
+  "_version": "1.28.0",
+  "sap.app": {
+    "applicationVersion": {
+      "version": "1.0.0"
+    },
+    "id": "store",
+    "type": "application",
+    "title": "Store",
+    "description": "Drug Store Catalogue",
+    "i18n": "i18n/i18n.properties",
+    "dataSources": {
+      "StoreService": {
+        "uri": "store/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "4.0"
+        }
+      }
+    },
+    "sourceTemplate": {
+      "id": "ui5template.basicSAPUI5ApplicationProject",
+      "-id": "ui5template.smartTemplate",
+      "version": "^1.40.12"
+    }
+  },
+  "sap.ui5": {
+    "dependencies": {
+      "minUI5Version": "1.81.0",
+      "libs": {
+        "sap.fe.templates": {}
+      }
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "uri": "i18n/i18n.properties"
+      },
+      "": {
+        "dataSource": "StoreService",
+        "settings": {
+          "synchronizationMode": "None",
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true,
+          "groupProperties": {
+            "default": {
+              "submit": "Auto"
+            }
+          }
+        }
+      }
+    },
+    "extends": {
+			"extensions": {
+				"sap.ui.controllerExtensions": {
+					"sap.fe.templates.ObjectPage.ObjectPageController": {
+						"controllerName": "store.controllers.objectPage"
+					}
+				}
+			}
+		},
+    "routing": {
+      "routes": [
+        {
+          "pattern": ":?query:",
+          "name": "ItemsList",
+          "target": "ItemsList"
+        },
+        {
+          "pattern": "Items({key}):?query:",
+          "name": "ItemsDetails",
+          "target": "ItemsDetails"
+        }
+      ],
+      "targets": {
+        "ItemsList": {
+          "type": "Component",
+          "id": "ItemsList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "entitySet": "Items",
+              "navigation": {
+                "Items": {
+                  "detail": {
+                    "route": "ItemsDetails"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ItemsDetails": {
+          "type": "Component",
+          "id": "ItemsDetailsList",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "entitySet": "Items",
+              "content": {
+								"header": {
+									"actions": {
+										"purchase": {
+											"press": ".extension.store.controllers.objectPage.onPurchase",
+											"visible": true,
+											"text": "{i18n>purchase}",
+											"position": {
+												"placement": "Before"
+											}
+										}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "fullWidth": false,
+    "deviceTypes":{
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.fiori": {
+    "registrationIds": [],
+    "archeType": "transactional"
+  }
+}

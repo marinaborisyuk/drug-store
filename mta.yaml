@@ -1,0 +1,80 @@
+---
+_schema-version: '3.1'
+ID: drug-store
+version: 1.0.0
+description: "A simple CAP project."
+parameters:
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npx -p @sap/cds-dk cds build --production
+
+modules:
+  - name: drug-store-srv
+    properties:
+      AUDIT_LOG_USE_CONSOLE: true
+      AUDIT_LOG_TENANT: "local"
+    type: nodejs
+    path: gen/srv
+    parameters:
+      buildpack: nodejs_buildpack
+    build-parameters:
+      builder: npm-ci
+    provides:
+      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: drug-store-auth
+      - name: drug-store-events
+      - name: drug-store-db
+
+  - name: drug-store
+    type: approuter.nodejs
+    path: app/ # from cds.env.folders. Consider also cds.env.build.target -> gen/app
+    parameters:
+      keep-existing-routes: true
+      disk-quota: 256M
+      memory: 256M
+    requires:
+      - name: srv-api
+        group: destinations
+        properties:
+          name: srv-api # must be used in xs-app.json as well
+          url: ~{srv-url}
+          forwardAuthToken: true
+      - name: drug-store-auth
+
+  - name: drug-store-db-deployer
+    type: hdb
+    path: gen/db
+    parameters:
+      buildpack: nodejs_buildpack
+    requires:
+      - name: drug-store-db
+
+resources:
+  - name: drug-store-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: drug-store-${org}-${space}
+        tenant-mode: dedicated
+
+  - name: drug-store-events
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: enterprise-messaging
+      service-plan: dev
+      path: ./eventmesh.json # use local event mesh config
+
+  - name: drug-store-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana # or 'hanatrial' on trial landscapes
+      service-plan: hdi-shared

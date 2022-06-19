@@ -1,0 +1,29 @@
+{
+  "root": true,
+  "env": {
+    "commonjs": true,
+    "es2021": true,
+    "node": true,
+    "jest": true
+  },
+  "extends": [
+    "google"
+  ],
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  },
+  "rules": {
+  },
+  "globals": {
+    "SELECT": true,
+    "INSERT": true,
+    "UPDATE": true,
+    "DELETE": true,
+    "CREATE": true,
+    "DROP": true,
+    "CDL": true,
+    "CQL": true,
+    "CXL": true,
+    "cds": true
+  }
+}

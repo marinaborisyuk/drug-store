@@ -1,0 +1,26 @@
+POST http://localhost:4004/store/purchase HTTP/1.1
+OData-Version: 4.0
+Content-Type: application/json;odata.metadata=minimal
+
+{
+    "item": "c12e45f1-855e-413b-9c77-f59b90c42b0d",
+    "client": "069a6b50-ec77-406c-ba7a-c2f0e9b244f6"
+}
+
+###
+
+GET http://localhost:4004/store/Items HTTP/1.1
+OData-Version: 4.0
+Content-Type: application/json;odata.metadata=minimal
+
+###
+
+GET http://localhost:4004/clients/Clients HTTP/1.1
+OData-Version: 4.0
+Content-Type: application/json;odata.metadata=minimal
+
+###
+
+GET http://localhost:4004/orders/Orders HTTP/1.1
+OData-Version: 4.0
+Content-Type: application/json;odata.metadata=minimal

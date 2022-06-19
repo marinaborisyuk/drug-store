@@ -1,0 +1,115 @@
+{
+  "_version": "1.28.0",
+  "sap.app": {
+    "applicationVersion": {
+      "version": "1.0.0"
+    },
+    "id": "orders",
+    "type": "application",
+    "title": "Manage Orders",
+    "description": "Drug Store Orders Management",
+    "i18n": "i18n/i18n.properties",
+    "dataSources": {
+      "OrdersService": {
+        "uri": "orders/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "4.0"
+        }
+      }
+    },
+    "sourceTemplate": {
+      "id": "ui5template.basicSAPUI5ApplicationProject",
+      "-id": "ui5template.smartTemplate",
+      "version": "^1.40.12"
+    }
+  },
+  "sap.ui5": {
+    "dependencies": {
+      "minUI5Version": "1.81.0",
+      "libs": {
+        "sap.fe.templates": {}
+      }
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "uri": "i18n/i18n.properties"
+      },
+      "": {
+        "dataSource": "OrdersService",
+        "settings": {
+          "synchronizationMode": "None",
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true,
+          "groupProperties": {
+            "default": {
+              "submit": "Auto"
+            }
+          }
+        }
+      }
+    },
+    "routing": {
+      "routes": [
+        {
+          "pattern": ":?query:",
+          "name": "OrdersList",
+          "target": "OrdersList"
+        },
+        {
+          "pattern": "Orders({key}):?query:",
+          "name": "OrdersDetails",
+          "target": "OrdersDetails"
+        }
+      ],
+      "targets": {
+        "OrdersList": {
+          "type": "Component",
+          "id": "OrdersList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "entitySet": "Orders",
+              "navigation": {
+                "Orders": {
+                  "detail": {
+                    "route": "OrdersDetails"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "OrdersDetails": {
+          "type": "Component",
+          "id": "OrdersDetailsList",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "entitySet": "Orders"
+            }
+          }
+        }
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "fullWidth": false,
+    "deviceTypes":{
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.fiori": {
+    "registrationIds": [],
+    "archeType": "transactional"
+  }
+}

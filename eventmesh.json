@@ -1,0 +1,7 @@
+{
+	"emname": "drug-store-events",
+	"options": {
+		"management": true,
+		"messagingrest": true
+	}
+}

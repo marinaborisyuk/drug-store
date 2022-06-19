@@ -1,0 +1,131 @@
+{
+  "services": {
+    "LaunchPage": {
+      "adapter": {
+        "config": {
+          "catalogs": [],
+          "groups": [
+            {
+              "id": "Store",
+              "title": "Store",
+              "isPreset": true,
+              "isVisible": true,
+              "isGroupLocked": false,
+              "tiles": [
+                {
+                  "id": "DrugStore",
+                  "tileType": "sap.ushell.ui.tile.StaticTile",
+                  "properties": {
+                    "title": "Store",
+                    "targetURL": "#Store-display"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "Administration",
+              "title": "Administration",
+              "isPreset": true,
+              "isVisible": true,
+              "isGroupLocked": false,
+              "tiles": [
+                {
+                  "id": "ManageItems",
+                  "tileType": "sap.ushell.ui.tile.StaticTile",
+                  "properties": {
+                    "title": "Manage Items",
+                    "targetURL": "#Items-manage"
+                  }
+                },
+                {
+                  "id": "ManageClients",
+                  "tileType": "sap.ushell.ui.tile.StaticTile",
+                  "properties": {
+                    "title": "Manage Clients",
+                    "targetURL": "#Clients-manage"
+                  }
+                },
+                {
+                  "id": "ManageOrders",
+                  "tileType": "sap.ushell.ui.tile.StaticTile",
+                  "properties": {
+                    "title": "Manage Orders",
+                    "targetURL": "#Orders-manage"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "NavTargetResolution": {
+      "config": {
+        "enableClientSideTargetResolution": true
+      }
+    },
+    "ClientSideTargetResolution": {
+      "adapter": {
+        "config": {
+          "inbounds": {
+            "DrugStore": {
+              "semanticObject": "Store",
+              "action": "display",
+              "title": "Browse Drugs Catalogue",
+              "signature": {
+                "parameters": {},
+                "additionalParameters": "allowed"
+              },
+              "resolutionResult": {
+                "applicationType": "SAPUI5",
+                "additionalInformation": "SAPUI5.Component=store",
+                "url": "/store/webapp"
+              }
+            },
+            "ManageClients": {
+              "semanticObject": "Clients",
+              "action": "manage",
+              "title": "Manage Clients",
+              "signature": {
+                "parameters": {},
+                "additionalParameters": "allowed"
+              },
+              "resolutionResult": {
+                "applicationType": "SAPUI5",
+                "additionalInformation": "SAPUI5.Component=clients",
+                "url": "/clients/webapp"
+              }
+            },
+            "ManageItems": {
+              "semanticObject": "Items",
+              "action": "manage",
+              "title": "Manage Items",
+              "signature": {
+                "parameters": {},
+                "additionalParameters": "allowed"
+              },
+              "resolutionResult": {
+                "applicationType": "SAPUI5",
+                "additionalInformation": "SAPUI5.Component=items",
+                "url": "/items/webapp"
+              }
+            },
+            "ManageOrders": {
+              "semanticObject": "Orders",
+              "action": "manage",
+              "signature": {
+                "parameters": {},
+                "additionalParameters": "allowed"
+              },
+              "resolutionResult": {
+                "applicationType": "SAPUI5",
+                "additionalInformation": "SAPUI5.Component=orders",
+                "url": "/orders/webapp"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
