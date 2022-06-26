@@ -4,13 +4,13 @@ using {
   cuid,
   managed
 } from '@sap/cds/common';
-// using {db.common.Price as Price} from '../../';
+using {db.common.Price as Price} from '../common/types';
 
 entity Items : cuid, managed {
   @mandatory
   name         : localized String(50);
-  // @mandatory
-  // price        : Price;
+  @mandatory
+  price        : Price;
   @mandatory
   description  : localized String(500);
   @mandatory
