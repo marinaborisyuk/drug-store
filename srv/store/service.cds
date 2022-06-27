@@ -6,7 +6,7 @@ service StoreService {
     projection on store.Items {
       ID,
       name,
-      // price,
+      price,
       description,
       ingredients,
       warnings,
@@ -14,4 +14,13 @@ service StoreService {
       soldCount
     }
     order by soldCount desc;
+  @readonly
+  entity Clients as projection on store.Clients;  
+
+  action purchase(client : Clients: ID, item : Items: ID);
+  
+  event purchased { 
+    client : Clients: ID;
+    item : Items: ID 
+  };
 }

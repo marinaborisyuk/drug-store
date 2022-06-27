@@ -11,7 +11,7 @@ module.exports = {
       const {client, item} = req.data;
       await checkIDs(client, item);
       await pushOrder(client, item);
-      // await srv.emit('purchased', {client, item});
+      await srv.emit('purchased', {client, item});
     });
   },
 };
